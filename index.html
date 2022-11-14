@@ -16,31 +16,29 @@
 
     <main class="main">
       <div class="card">
-        <div class="item select">
+        <div class="select">
             <form action="" class="form">
                 <select name="levels" id="levels">
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
+                    <option value="hard">Normal</option>
                     <option value="unbeatable">Unbeatable</option>
                 </select>
             </form>
         </div>
-        <div class="item player">
+        <div class="player">
             <button class="btn btn-p x">X</button>
             <button class="btn btn-p o">O</button>
         </div>
 
         <div class="gameboard">
-            <button class="field"><p></p></button>
-            <button class="field"><p></p></button>
-            <button class="field no-r"><p></p></button>
-            <button class="field"><p></p></button>
-            <button class="field"><p></p></button>
-            <button class="field no-r"><p></p></button>
-            <button class="field no-b"><p></p></button>
-            <button class="field no-b"><p></p></button>
-            <button class="field no-b no-r"><p></p></button>
+            <button class="field" data-index="0"><p></p></button>
+            <button class="field" data-index="1"><p></p></button>
+            <button class="field no-r" data-index="2"><p></p></button>
+            <button class="field" data-index="3"><p></p></button>
+            <button class="field" data-index="4"><p></p></button>
+            <button class="field no-r" data-index="5"><p></p></button>
+            <button class="field no-b" data-index="6"><p></p></button>
+            <button class="field no-b" data-index="7"><p></p></button>
+            <button class="field no-b no-r" data-index="8"><p></p></button>
         </div>
 
           <div class="Restart">
@@ -49,5 +47,6 @@
       </div>
       
     </main>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@ header h1{
 }
 
 .card {
-  background-color: rgb(0, 4, 24);
+  background-color: rgb(11, 11, 49);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,17 +30,19 @@ header h1{
 
 
 .field {
+  color: white;
   width: 100px;
+  height: 100px;
   border: none;
-  background-color: rgb(0, 4, 24);
+  background-color: rgb(11, 11, 49);
   font-size: 100px;
   text-align: center;
   cursor: pointer;
-  user-select: none;
+  user-select: auto;
   outline: none;
   border-radius: 0px;
-  border-bottom: 3px solid white;
-  border-right: 3px solid white;
+  border-bottom: 3px solid rgb(0, 4, 24);
+  border-right: 3px solid rgb(0, 4, 24);
 }
 
 
@@ -125,3 +127,9 @@ select:hover {
   font-size: 24px;
   cursor: pointer;
 }
+
+.restart-button:hover{
+  background-color: rgb(15, 197, 15);
+}
+
+
