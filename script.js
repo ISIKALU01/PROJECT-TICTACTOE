@@ -10,6 +10,14 @@ const Player = (sign) => {
 
 
 
+
+
+
+
+
+
+
+
 const displayController = (() => {
     const fieldElements = document.querySelectorAll(".field");
     const restartButton = document.querySelector(".restart-button");
@@ -34,6 +42,8 @@ const displayController = (() => {
         fieldElements[i].textContent = gameBoard.getField(i);  
       }
     };
+
+
   })();
   
 
@@ -42,23 +52,55 @@ const displayController = (() => {
 
 
 
+
+
+
+  
 const gameController = (() => {
   const _huPlayer = Player("X");
   const _aiPlayer = Player("O");
 
   const getHumanPlayer = () => _huPlayer;
   const getAiPlayer = () => _aiPlayer;
-
-
   let round = 0;
+  let aiRound = 0;
 
-  
   const playRound = (fieldIndex) => {
     gameBoard.setField(fieldIndex, getHumanPlayer().getSign()); 
-    bestSpot()
+    aiPlay()
     round++;
+    //console.log(checkWinner(fieldIndex))
+    //console.log(round)
+    // console.log(aiRound)
   };
   
+ 
+
+
+  const checkWinner = (fieldIndex) => {
+    const winConditions = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+
+
+    return winConditions
+      .filter((combination) => combination.includes(fieldIndex))
+      .some((possibleCombination) =>
+        possibleCombination.every(
+          (index) => gameBoard.getField(index) === getHumanPlayer().getSign()
+        )
+      );
+  };
+
+
   const getIsOver = () => {
     return isOver;
   };
@@ -68,14 +110,45 @@ const gameController = (() => {
     isOver = false;
   };
 
-  const bestSpot = () => {
+  const aiPlay = () => {
     const emptyCells = gameBoard.getEmptyFields()
-    gameBoard.setField(emptyCells[0], getAiPlayer().getSign())  
+    gameBoard.setField(emptyCells[1], getAiPlayer().getSign())
+    aiRound++;
+    //console.log(emptyCells[1])
+    //console.log(checkAiWinner(emptyCells[1]))
   }
-  
-  
-    return { playRound, getIsOver, reset, bestSpot };
+
+  const checkAiWinner = (aiField) => {
+    const aiWinConditions = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    return aiWinConditions
+      .filter((combination) => combination.includes(aiField))
+      .some((possibleCombination) =>
+        possibleCombination.every(
+          (index) => gameBoard.getField(index) === getAiPlayer().getSign()
+        )
+      );
+  }
+    return { playRound, getIsOver, reset, aiPlay };
   })();
+
+
+
+
+
+
+
+
+
 
 
 
@@ -87,7 +160,6 @@ const gameController = (() => {
 
 const gameBoard = (() => {
   const _board = new Array(9);
-  //const _board = ["", "", "", "", "", "", "", "", ""];
 
   const setField = (index, sign) => {
     if (index > _board.length) return;
@@ -96,7 +168,7 @@ const gameBoard = (() => {
 
   const getField = (index) => {
     if (index > _board.length) return;
-    console.log(_board)
+    //console.log(_board)
     return _board[index];
   };
 
