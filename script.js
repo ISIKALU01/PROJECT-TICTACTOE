@@ -14,12 +14,18 @@ const Player = (sign) => {
 
 
 
+const fieldElements = document.querySelectorAll(".field");
+const updateGameboard = () => {
+  for (let i = 0; i < fieldElements.length; i++) {
+    fieldElements[i].textContent = gameBoard.getField(i);  
+  }
+};
 
 
 
 
 const displayController = (() => {
-    const fieldElements = document.querySelectorAll(".field");
+    
     const restartButton = document.querySelector(".restart-button");
 
     
@@ -37,11 +43,7 @@ const displayController = (() => {
       updateGameboard();   
     });
   
-    const updateGameboard = () => {
-      for (let i = 0; i < fieldElements.length; i++) {
-        fieldElements[i].textContent = gameBoard.getField(i);  
-      }
-    };
+   
 
 
   })();
@@ -63,18 +65,57 @@ const gameController = (() => {
   const getHumanPlayer = () => _huPlayer;
   const getAiPlayer = () => _aiPlayer;
   let round = 0;
-  let aiRound = 0;
 
   const playRound = (fieldIndex) => {
     gameBoard.setField(fieldIndex, getHumanPlayer().getSign()); 
-    aiPlay()
+    const emptyCells = gameBoard.getEmptyFields();
+    const randomIndex = Math.floor(Math.random() * emptyCells.length);
+    gameBoard.setField(emptyCells[randomIndex], getAiPlayer().getSign());
+    
     round++;
-    //console.log(checkWinner(fieldIndex))
-    //console.log(round)
-    // console.log(aiRound)
+
+    const modal = document.querySelector('.modal')
+    const overlay = document.querySelector('.overlay');
+    const huMsg = document.querySelector('.hu')
+    const aiMsg = document.querySelector('.ai')
+    const draw = document.querySelector('.draw')
+
+    function closeModal(){
+      overlay.classList.remove('active')
+      modal.classList.remove('active')
+      gameBoard.reset()
+      reset()
+      updateGameboard()
+      huMsg.classList.remove('active')
+      draw.classList.remove('active')
+      aiMsg.classList.remove('active')
+    }
+
+    if(checkWinner(fieldIndex)){
+      overlay.classList.add('active')
+      modal.classList.add('active')
+      huMsg.classList.add('active')
+    }
+
+    overlay.onclick = closeModal
+
+    if(round===5 && checkWinner(fieldIndex) === false){
+      overlay.classList.add('active')
+      modal.classList.add('active')
+      draw.classList.add('active')
+    }
+
+    if(checkAiWinner(emptyCells[0])){
+      overlay.classList.add('active')
+      modal.classList.add('active')
+      if(checkWinner(fieldIndex) === false){
+        aiMsg.classList.add('active')
+      }
+      
+    }
   };
-  
- 
+
+
 
 
   const checkWinner = (fieldIndex) => {
@@ -101,22 +142,18 @@ const gameController = (() => {
   };
 
 
-  const getIsOver = () => {
-    return isOver;
-  };
-  
-  const reset = () => {
-    round = 0;
-    isOver = false;
-  };
-
+/*
   const aiPlay = () => {
-    const emptyCells = gameBoard.getEmptyFields()
-    gameBoard.setField(emptyCells[1], getAiPlayer().getSign())
-    aiRound++;
-    //console.log(emptyCells[1])
-    //console.log(checkAiWinner(emptyCells[1]))
+    // const emptyCells = gameBoard.getEmptyFields()
+    // gameBoard.setField(emptyCells[0], getAiPlayer().getSign())
+    if(checkAiWinner(emptyCells[0])){
+      overlay.classList.add('active')
+      modal.classList.add('active')
+      aiMsg.classList.add('active')
+    }
+    round++;
   }
+  */
 
   const checkAiWinner = (aiField) => {
     const aiWinConditions = [
@@ -138,7 +175,13 @@ const gameController = (() => {
         )
       );
   }
-    return { playRound, getIsOver, reset, aiPlay };
+
+  
+  const reset = () => {
+    round = 0;
+  };
+
+    return { playRound, reset };
   })();
 
 
