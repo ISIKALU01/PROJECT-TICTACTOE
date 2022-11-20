@@ -105,13 +105,13 @@ const gameController = (() => {
       draw.classList.add('active')
     }
 
-    if(checkAiWinner(emptyCells[0])){
+    if(checkAiWinner(emptyCells[randomIndex])){
       overlay.classList.add('active')
       modal.classList.add('active')
-      if(checkWinner(fieldIndex) === false){
-        aiMsg.classList.add('active')
+      aiMsg.classList.add('active')
+      if(checkWinner(fieldIndex) === true){
+        aiMsg.classList.remove('active')
       }
-      
     }
   };
 
