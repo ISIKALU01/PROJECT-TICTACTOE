@@ -1,3 +1,19 @@
+
+html {
+  /* footer support */
+  position: relative;
+  min-height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+
 body{
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   background-color: antiquewhite;
@@ -10,6 +26,8 @@ header h1{
   color: rgb(44, 86, 141);
   font-family: 'Courier New', Courier, monospace;
   font-size: 30px;
+  padding: 20px;
+  margin-bottom: 30px;
 }
 
 .card {
@@ -40,7 +58,7 @@ header h1{
   height: 100px;
   border: none;
   background-color: rgb(44, 86, 141);
-  font-size: 100px;
+  font-size: 70px;
   text-align: center;
   cursor: pointer;
   user-select: auto;
@@ -108,15 +126,6 @@ select:hover {
 }
 
 
-.player {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: space-around;
-  margin: 0;
-  margin-bottom: 20px;
-  padding: 16px;
-}
 
 .Restart {
   width: 100%;
@@ -131,10 +140,14 @@ select:hover {
   font-weight: 600;
   font-size: 24px;
   cursor: pointer;
+  background-color:whitesmoke;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .restart-button:hover{
-  background-color: rgb(15, 197, 15);
+  background-color: rgba(11, 150, 11, 0.808);
+  color: whitesmoke;
 }
 
 
@@ -164,7 +177,6 @@ select:hover {
   text-align: center;
   transform: translate(-50%, -50%) scale(0);
   transition: 0.5s ease-in-out;
-  backdrop-filter: blur(8px) brightness(80%)
 }
 
 .modal.active {
@@ -208,8 +220,61 @@ select:hover {
 }
 
 
+.footer {
+  font-weight: 300;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  color: rgba(8, 17, 29, 0.795);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 
+.fa-github {
+  font-size: 20px;
+  color: rgba(8, 17, 29, 0.795);
+  transition: transform 0.3s ease-in-out;
+}
 
+.fa-github:hover {
+  transform: rotate(360deg) scale(1.2);
+}
+
+@media (max-width: 600px) {
+  .field{
+    width: 60px;
+    height: 60px;
+    font-size: 40px;
+  }
+
+  .select {
+    align-self: flex-start;
+    margin-top: -4px;
+    margin-bottom: 0;
+  }
+  
+
+  select {
+    background-color: rgb(0, 4, 24);
+    outline: none;
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid white;
+    font-weight: 500;
+    font-size: 7px;
+    color: white;
+    padding: 4px;
+  }
+
+  .restart-button{
+    font-size: 12px;
+  }
+}
 
 
 

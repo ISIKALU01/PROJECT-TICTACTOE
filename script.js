@@ -25,10 +25,8 @@ const updateGameboard = () => {
 
 
 const displayController = (() => {
-    
     const restartButton = document.querySelector(".restart-button");
 
-    
     fieldElements.forEach((field) =>
       field.addEventListener("click", (e) => {
         if(field.textContent)return;
@@ -42,10 +40,6 @@ const displayController = (() => {
       gameController.reset();
       updateGameboard();   
     });
-  
-   
-
-
   })();
   
 
@@ -110,11 +104,11 @@ const gameController = (() => {
       modal.classList.add('active')
       aiMsg.classList.add('active')
       if(checkWinner(fieldIndex) === true){
+        gameBoard.setField(emptyCells[randomIndex], );
         aiMsg.classList.remove('active')
       }
     }
   };
-
 
 
 
@@ -234,6 +228,12 @@ const gameBoard = (() => {
 
   return { setField, getField, reset, getEmptyFields};
 })();
+
+
+const selectX = document.querySelector('.x')
+const selectO = document.querySelector('.o')
+
+
 
 
 
