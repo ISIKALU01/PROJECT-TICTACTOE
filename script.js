@@ -9,11 +9,6 @@ const Player = (sign) => {
   };
 
 
-
-
-
-
-
 const fieldElements = document.querySelectorAll(".field");
 const updateGameboard = () => {
   for (let i = 0; i < fieldElements.length; i++) {
@@ -24,24 +19,26 @@ const updateGameboard = () => {
 
 
 
+
 const displayController = (() => {
     const restartButton = document.querySelector(".restart-button");
-
-    fieldElements.forEach((field) =>
-      field.addEventListener("click", (e) => {
-        if(field.textContent)return;
-        gameController.playRound(parseInt(e.target.dataset.index));
-        updateGameboard();
-      })
-    );
 
     restartButton.addEventListener("click", (e) => {
       gameBoard.reset();
       gameController.reset();
       updateGameboard();   
     });
+
+    fieldElements.forEach((field) =>
+    field.addEventListener("click", (e) => {
+    if(field.textContent)return;
+    gameController.playRound(parseInt(e.target.dataset.index));
+    updateGameboard()
+    })
+  )
   })();
   
+
 
 
 
@@ -61,17 +58,21 @@ const gameController = (() => {
   let round = 0;
 
   const playRound = (fieldIndex) => {
-    gameBoard.setField(fieldIndex, getHumanPlayer().getSign()); 
+    gameBoard.setField(fieldIndex, getHumanPlayer().getSign());
     const emptyCells = gameBoard.getEmptyFields();
     const randomIndex = Math.floor(Math.random() * emptyCells.length);
-    gameBoard.setField(emptyCells[randomIndex], getAiPlayer().getSign());
+    if(checkWinner(fieldIndex)){
+      gameBoard.setField(emptyCells[randomIndex], "")
+    }else{
+      gameBoard.setField(emptyCells[randomIndex], getAiPlayer().getSign());
+    }
     
     round++;
 
     const modal = document.querySelector('.modal')
     const overlay = document.querySelector('.overlay');
-    const huMsg = document.querySelector('.hu')
-    const aiMsg = document.querySelector('.ai')
+    const huMsg = document.querySelector('.x')
+    const aiMsg = document.querySelector('.o')
     const draw = document.querySelector('.draw')
 
     function closeModal(){
@@ -80,37 +81,28 @@ const gameController = (() => {
       gameBoard.reset()
       reset()
       updateGameboard()
-      huMsg.classList.remove('active')
-      draw.classList.remove('active')
-      aiMsg.classList.remove('active')
+      huMsg.textContent = ""
+      draw.textContent = ""
+      aiMsg.textContent = ""
     }
 
     if(checkWinner(fieldIndex)){
       overlay.classList.add('active')
       modal.classList.add('active')
-      huMsg.classList.add('active')
+      huMsg.textContent = "YOU HAVE WON"
+    }else if(round == 5 && checkWinner(fieldIndex) == false){
+      overlay.classList.add('active')
+      modal.classList.add('active')
+      draw.textContent = "IT'S A DRAW"
+    }else if(checkAiWinner(emptyCells[randomIndex])){
+      overlay.classList.add('active')
+      modal.classList.add('active')
+      aiMsg.textContent = "AI PLAYER WINS"
     }
 
     overlay.onclick = closeModal
-
-    if(round===5 && checkWinner(fieldIndex) === false){
-      overlay.classList.add('active')
-      modal.classList.add('active')
-      draw.classList.add('active')
-    }
-
-    if(checkAiWinner(emptyCells[randomIndex])){
-      overlay.classList.add('active')
-      modal.classList.add('active')
-      aiMsg.classList.add('active')
-      if(checkWinner(fieldIndex) === true){
-        gameBoard.setField(emptyCells[randomIndex], );
-        aiMsg.classList.remove('active')
-      }
-    }
+    modal.onclick = closeModal
   };
-
-
 
   const checkWinner = (fieldIndex) => {
     const winConditions = [
@@ -123,9 +115,6 @@ const gameController = (() => {
       [0, 4, 8],
       [2, 4, 6],
     ];
-
-
-
     return winConditions
       .filter((combination) => combination.includes(fieldIndex))
       .some((possibleCombination) =>
@@ -135,19 +124,6 @@ const gameController = (() => {
       );
   };
 
-
-/*
-  const aiPlay = () => {
-    // const emptyCells = gameBoard.getEmptyFields()
-    // gameBoard.setField(emptyCells[0], getAiPlayer().getSign())
-    if(checkAiWinner(emptyCells[0])){
-      overlay.classList.add('active')
-      modal.classList.add('active')
-      aiMsg.classList.add('active')
-    }
-    round++;
-  }
-  */
 
   const checkAiWinner = (aiField) => {
     const aiWinConditions = [
@@ -160,7 +136,6 @@ const gameController = (() => {
       [0, 4, 8],
       [2, 4, 6],
     ];
-
     return aiWinConditions
       .filter((combination) => combination.includes(aiField))
       .some((possibleCombination) =>
@@ -175,7 +150,7 @@ const gameController = (() => {
     round = 0;
   };
 
-    return { playRound, reset };
+    return { playRound, reset};
   })();
 
 
@@ -230,8 +205,7 @@ const gameBoard = (() => {
 })();
 
 
-const selectX = document.querySelector('.x')
-const selectO = document.querySelector('.o')
+
 
 
 
